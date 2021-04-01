@@ -7,15 +7,6 @@ terraform {
   }
 }
 
-
-provider "azurerm" {
-  features {
-    key_vault {
-      purge_soft_delete_on_destroy = false
-    }
-  }
-}
-
 resource "azurerm_resource_group" "thanos" {
   name     = "rg-thanos-${var.env}-${local.azure_regions_short[var.azure_region]}-001"
   location = local.azure_regions[var.azure_region]

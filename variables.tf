@@ -19,8 +19,8 @@ variable "storage_accounts" {
 }
 
 variable "tags" {
-  default   = null
-  type      = map(any)
+  default = null
+  type    = map(any)
 }
 
 variable "hcloud_token" {

@@ -14,10 +14,12 @@ module "azure_resource_group" {
 }
 
 module "azure_storage" {
-  source = "./azure/storage"
+  source     = "./azure/storage"
   depends_on = [module.azure_resource_group]
 
-  env = var.env
+  env                       = var.env
+  azure_region              = var.azure_region
+  azure_resource_group_name = module.azure_resource_group.rg_name
 }
 
 module "hcloud_compute" {
@@ -27,6 +29,7 @@ module "hcloud_compute" {
   domain                              = var.domain
   hcloud_token                        = var.hcloud_token
   hcloud_thanos_server_instance_count = var.hcloud_thanos_server_instance_count
+  azure_storage_account_resource_id   = module.azure_storage.storage_account_resource_id
   azure_resource_group_name           = module.azure_resource_group.rg_name
 }
 

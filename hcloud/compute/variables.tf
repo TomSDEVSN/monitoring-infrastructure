@@ -2,13 +2,17 @@ variable "azure_resource_group_name" {
   type = string
 }
 
+variable "azure_storage_account_resource_id" {
+  type = string
+}
+
 variable "hcloud_token" {
   type    = string
   default = ""
 }
 
 variable "hcloud_thanos_server_instance_count" {
-  type    = string
+  type = string
 }
 
 variable "domain" {
