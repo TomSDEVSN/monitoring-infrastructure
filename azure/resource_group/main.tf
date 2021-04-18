@@ -7,11 +7,11 @@ terraform {
   }
 }
 
-resource "azurerm_resource_group" "thanos" {
-  name     = "rg-thanos-${var.env}-${local.azure_regions_short[var.azure_region]}-001"
+resource "azurerm_resource_group" "monitoring" {
+  name     = "rg-monitoring-${var.env}-${local.azure_regions_short[var.azure_region]}-001"
   location = local.azure_regions[var.azure_region]
 }
 
 output "rg_name" {
-  value = azurerm_resource_group.thanos.name
+  value = azurerm_resource_group.monitoring.name
 }

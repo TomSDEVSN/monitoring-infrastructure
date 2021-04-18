@@ -22,6 +22,15 @@ module "azure_storage" {
   azure_resource_group_name = module.azure_resource_group.rg_name
 }
 
+module "azure_compute" {
+  source     = "./azure/compute"
+  depends_on = [module.azure_resource_group]
+
+  env                       = var.env
+  azure_region              = var.azure_region
+  azure_resource_group_name = module.azure_resource_group.rg_name
+}
+
 module "hcloud_compute" {
   source = "./hcloud/compute"
 
