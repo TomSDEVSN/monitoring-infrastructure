@@ -29,6 +29,7 @@ module "azure_compute" {
   env                       = var.env
   azure_region              = var.azure_region
   azure_resource_group_name = module.azure_resource_group.rg_name
+  ssh_key_file              = var.ssh_key_file
 }
 
 module "hcloud_compute" {
@@ -40,6 +41,7 @@ module "hcloud_compute" {
   hcloud_thanos_server_instance_count = var.hcloud_thanos_server_instance_count
   azure_storage_account_resource_id   = module.azure_storage.storage_account_resource_id
   azure_resource_group_name           = module.azure_resource_group.rg_name
+  ssh_key_file                        = var.ssh_key_file
 }
 
 module "hcloud_dns" {

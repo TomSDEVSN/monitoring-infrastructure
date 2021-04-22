@@ -13,6 +13,11 @@ provider "hcloud" {
 
 resource "random_uuid" "thanos_cluster_id" {}
 
+resource "hcloud_ssh_key" "thanos-deploy" {
+  name       = "thanos-deploy"
+  public_key = file(var.ssh_key_file)
+}
+
 resource "hcloud_network" "thanos" {
   name     = "thanos-network"
   ip_range = "10.54.0.0/16"
@@ -43,8 +48,11 @@ resource "hcloud_server" "thanos" {
     "azure/storage_account" = var.azure_storage_account_resource_id
   }
 
+  ssh_keys = [hcloud_ssh_key.thanos-deploy.id]
+
   depends_on = [
-    hcloud_network_subnet.thanos
+    hcloud_network_subnet.thanos,
+    random_uuid.thanos_cluster_id
   ]
 }
 

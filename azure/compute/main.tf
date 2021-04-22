@@ -40,21 +40,21 @@ resource "azurerm_network_security_group" "zabbix" {
 }
 
 resource "azurerm_public_ip" "zabbix_ipv4" {
-  name                   = "pipv4-zabbix-${var.env}-${local.azure_regions_short[var.azure_region]}-001"
-  location               = local.azure_regions[var.azure_region]
-  resource_group_name    = var.azure_resource_group_name
-  sku                    = "Standard"
-  allocation_method      = "Static"
-  ip_version             = "IPv4"
+  name                = "pipv4-zabbix-${var.env}-${local.azure_regions_short[var.azure_region]}-001"
+  location            = local.azure_regions[var.azure_region]
+  resource_group_name = var.azure_resource_group_name
+  sku                 = "Standard"
+  allocation_method   = "Static"
+  ip_version          = "IPv4"
 }
 
 resource "azurerm_public_ip" "zabbix_ipv6" {
-  name                   = "pipv6-zabbix-${var.env}-${local.azure_regions_short[var.azure_region]}-001"
-  location               = local.azure_regions[var.azure_region]
-  resource_group_name    = var.azure_resource_group_name
-  sku                    = "Standard"
-  allocation_method      = "Static"
-  ip_version             = "IPv6"
+  name                = "pipv6-zabbix-${var.env}-${local.azure_regions_short[var.azure_region]}-001"
+  location            = local.azure_regions[var.azure_region]
+  resource_group_name = var.azure_resource_group_name
+  sku                 = "Standard"
+  allocation_method   = "Static"
+  ip_version          = "IPv6"
 }
 
 resource "azurerm_network_interface" "zabbix" {
@@ -66,15 +66,16 @@ resource "azurerm_network_interface" "zabbix" {
     name                          = "nicconfig_ipv4"
     primary                       = true
     subnet_id                     = azurerm_subnet.zabbix.id
-    private_ip_address_allocation = "Static"
+    private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.zabbix_ipv4.id
   }
 
   ip_configuration {
     name                          = "nicconfig_ipv6"
     subnet_id                     = azurerm_subnet.zabbix.id
-    private_ip_address_allocation = "Static"
-    public_ip_address_id          = azurerm_public_ip.zabbix_ipv4.id
+    private_ip_address_allocation = "Dynamic"
+    private_ip_address_version    = "IPv6"
+    public_ip_address_id          = azurerm_public_ip.zabbix_ipv6.id
   }
 }
 
@@ -89,7 +90,7 @@ resource "azurerm_linux_virtual_machine" "zabbix" {
   location              = local.azure_regions[var.azure_region]
   resource_group_name   = var.azure_resource_group_name
   network_interface_ids = [azurerm_network_interface.zabbix.id]
-  size                  = "Standard_BS1s"
+  size                  = "Standard_B1s"
 
   os_disk {
     name                 = "osdisk-zabbix-${var.env}-${local.azure_regions_short[var.azure_region]}-001"
@@ -109,6 +110,6 @@ resource "azurerm_linux_virtual_machine" "zabbix" {
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = file("~/.ssh/id_rsa.pub")
+    public_key = file(var.ssh_key_file)
   }
 }

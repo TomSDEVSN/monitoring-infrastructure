@@ -40,3 +40,7 @@ variable "hetzner_dns_token" {
 variable "hetzner_dns_zone" {
   type = string
 }
+
+variable "ssh_key_file" {
+  type = string
+}
