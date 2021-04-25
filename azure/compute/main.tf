@@ -37,6 +37,18 @@ resource "azurerm_network_security_group" "zabbix" {
     destination_port_range     = "22"
     destination_address_prefix = "*"
   }
+
+  security_rule {
+    name                       = "InboundICMPAllow"
+    priority                   = 110
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "ICMP"
+    source_port_range          = "*"
+    source_address_prefix      = "*"
+    destination_port_range     = "*"
+    destination_address_prefix = "*"
+  }
 }
 
 resource "azurerm_public_ip" "zabbix_ipv4" {

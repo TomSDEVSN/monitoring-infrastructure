@@ -45,7 +45,7 @@ resource "hcloud_server" "thanos" {
     "env"                   = var.env
     "cluster_id"            = random_uuid.thanos_cluster_id.result
     "azure/resource_group"  = var.azure_resource_group_name
-    "azure/storage_account" = var.azure_storage_account_resource_id
+    "azure/storage_account" = var.azure_storage_account_resource_name
   }
 
   ssh_keys = [hcloud_ssh_key.thanos-deploy.id]

@@ -16,6 +16,6 @@ resource "azurerm_storage_account" "thanos" {
   access_tier              = "Cool"
 }
 
-output "storage_account_resource_id" {
-  value = azurerm_storage_account.thanos.id
+output "storage_account_resource_name" {
+  value = azurerm_storage_account.thanos.name
 }
